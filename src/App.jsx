@@ -1,7 +1,6 @@
 import 'styles/styles.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from 'pages/Login';
-import Registro from 'pages/Registro';
 import Admi from 'pages/admin/Index';
 import Index from 'pages/Index';
 import PublicLayout from 'layouts/PublicLayout';
@@ -9,6 +8,7 @@ import PrivateLayout from 'layouts/PrivateLayout';
 import AutheLayout from 'layouts/AutheLayout';
 import Clientes from 'pages/admin/Clientes';
 import Casas from 'pages/admin/Casas';
+import NewCasa from 'pages/admin/NewCasa';
 
 function App() {
   return (
@@ -17,6 +17,9 @@ function App() {
         <Route path ={['/admin', 'admin/clientes', '/admin/casas']}>
           <PrivateLayout>
             <Switch>
+              <Route path="/admin/casas/new">
+                <NewCasa/>
+              </Route>
               <Route path="/admin/clientes">
                 <Clientes/>
               </Route>
@@ -35,9 +38,6 @@ function App() {
             <Switch>
               <Route path="/login">
                 <Login/>
-              </Route>
-              <Route path="/registro">
-                <Registro/>
               </Route>
             </Switch>
           </AutheLayout>

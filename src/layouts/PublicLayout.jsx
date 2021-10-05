@@ -4,11 +4,13 @@ import React from 'react';
 
 const PublicLayout = ({children}) => {
     return (
-        <div className="flex flex-col justify-between h-screen">
-           <Navbar/> 
-           <main className="h-full overflow-y-scroll bg-gray-400">{children}</main>
-           <Footer/>
-        </div>
+        <>
+            <Navbar/> 
+            <div className="h-screen flex flex-col ">
+                <main className="flex flex-col items-center h-full ">{children}</main>
+            </div>
+            <Footer/>
+        </>
     )
 }
 

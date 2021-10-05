@@ -1,11 +1,112 @@
-import React from 'react'
+import React, { useState } from 'react'
+import {useEffect} from 'react'
+import prueba from 'media/card1.png'
+import { Link } from 'react-router-dom'
+import NewCasa from './NewCasa'
+
+const listing = [{
+    name: "Villa Italiana",
+    adress : "Bel Air, LA",
+    price: "20000",
+    state: "rent"
+},
+{
+    name:"Villa Yulissa",
+    adress:"calabazas",
+    price: "400",
+    state: "rent"
+},
+{
+    name:"Villa Yulissa",
+    adress:"calabazas",
+    price: "400M",
+    state: "rent"
+},
+{
+    name: "Villa Italiana",
+    adress : "Bel Air, LA",
+    price: "20000",
+    state: "rent"
+},
+{
+    name:"Villa Yulissa",
+    adress:"calabazas",
+    price: "400",
+    state: "rent"
+},
+{
+    name:"Villa Yulissa",
+    adress:"calabazas",
+    price: "400",
+    state: "rent"
+}
+]
 
 const Casas = () => {
+    const [houses, setHouse] = useState([]);
+    const [showform, setShowForm] = useState(false)
+    const [botontext, setBotonText] = useState("Add New Property")
+
+
+    useEffect(()=>{
+        if(showform){
+            setBotonText("Show all the properties");
+        }else{
+            setBotonText("Add New property");
+        }
+    }, [showform])
+
+
+    useEffect(()=>{
+        setHouse(listing);
+    },[])
+
+
     return (
-        <div>
-            Panel de administracion de casas
+        <div className="flex flex-col w-full items-center p-9">
+            <div className="border-2 flex justify-between w-11/12 p-10">
+                <div className="flex flex-col">
+                <h2 className="text-2xl font-semibold">Welcome</h2>
+                <h2 className="text-xl font-semibold">this are the house available for sale or rent</h2>
+                </div>
+                    <button onClick ={
+                    ()=>{
+                        setShowForm(!showform)
+                        console.log("showform =", showform)
+                    }}
+                    className="boton_default">{botontext}</button>
+            </div>
+
+            <section className="w-full h-full flex flex-wrap justify-center">
+                {showform ? (<NewCasa showTable = {setShowForm} addNewHouseToCard = {setHouse} houseList = {houses}/>)
+                : (<CardHouses houseList={houses}/>) }
+                
+            </section>
         </div>
-    )
+    );
+}
+
+const CardHouses = ({houseList}) =>{
+    useEffect(()=>{
+        console.log(houseList);
+    },[houseList])
+    
+    return(
+        houseList.map((house)=>{
+            return(
+                <div className="border-2 flex flex-col w-64 h-74 items-center my-2 mx-4 shadow-lg">
+                    <img className="w-10/12 h-auto" src={prueba} alt="imagen"/>
+                    <h2 className=" capitalize font-semibold text-lg">{house.name}</h2>
+                    <div className="flex flex-wrap items-center justify-center w-full">
+                        <p className="font-bold capitalize text-sm px-1">{house.state}</p>
+                        <p className="font-light text-sm px-1">{house.adress}</p>
+                        <p className="font-light text-sm px-1">{house.price} USD</p>
+                    </div>
+                    <button className="boton_card" type="button">See More</button>
+                </div>
+            )
+        })
+    );
 }
 
 export default Casas
