@@ -4,6 +4,7 @@ import card1 from '../media/card1.png'
 import card2 from '../media/card2.png'
 import card3 from '../media/card3.png'
 
+
 const Index = () => {
     return (
         <>
@@ -24,6 +25,7 @@ const Index = () => {
                 <Cart imagen={card3} titulo="Rent a Home"  descripcion="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar" boton="Find Rentals" />
                    
             </div>
+            
 
         </>
     )

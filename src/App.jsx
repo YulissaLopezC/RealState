@@ -10,7 +10,7 @@ import Clientes from 'pages/admin/Clientes';
 import Casas from 'pages/admin/Casas';
 import NewCasa from 'pages/admin/NewCasa';
 import { DarkMode } from 'context/DarkMode';
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -37,11 +37,11 @@ function App() {
             </PrivateLayout>
           </Route>
   
-          <Route path ={['/login' , '/registro']}>
+          <Route path ={['/login']}>
             <AutheLayout>
               <Switch>
                 <Route path="/login">
-                  <Login/>
+                  <Login show={true}/>
                 </Route>
               </Switch>
             </AutheLayout>

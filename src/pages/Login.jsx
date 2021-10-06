@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
-const Login = () => {
+const Login = ({show, close}) => {
     const [mostrarInicio, setMostrarInicio] = useState(true);
     const [textoBoton, setTextoBoton] = useState("Login");
     const [colorBoton, setColorBoton] = useState("indigo");
@@ -18,11 +18,23 @@ const Login = () => {
     }, [mostrarInicio])
 
     return (
-        <div className="borde shadow-2xl block-cont-authen">
+        <>
+        {show ? (
+        <div className="fixed w-full inset-0 flex justify-center items-center backdrop-filter backdrop-blur-sm"
+        onClick={
+            ()=>{
+                close()
+            }
+        }>
+        <div className="borde shadow-2xl block-cont-authen bg-white" onClick={(e) => e.stopPropagation()}>
             <div className="flex flex-col w-full justify-center">
-                <Link to="/">
-                <i class="fas fa-arrow-alt-circle-left ml-4 text-lg"></i>
-                </Link>   
+                <button onClick={
+                    ()=>{
+                        close()
+                    }
+                } className="self-end pr-4 text-lg">
+                    <i class="fas fa-times-circle"></i>
+                </button> 
                 <h3 className="text_style_1">Welcome to HouseLand</h3>
             </div>
             <div className="flex w-11/12  pt-6 border-b-2 border-indigo-400 ">
@@ -36,6 +48,9 @@ const Login = () => {
             </div>
             
         </div>
+        </div>) : null
+        }
+        </>
     );    
 }
 
