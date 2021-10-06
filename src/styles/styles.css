@@ -57,3 +57,11 @@
     @apply w-11/12 border-2 h-full focus:outline-none focus:border-indigo-300 pl-4 font-normal text-xl mt-2 rounded-md;
 }
 
+.darkMode{
+    @apply text-white;
+}
+
+.lightMode{
+    @apply text-black;
+}
+

@@ -4,6 +4,8 @@ import prueba from 'media/card1.png'
 import NewCasa from './NewCasa'
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
+import BotonDarkMode from 'components/BotonDarkMode';
+import { useDarkMode } from 'context/DarkMode';
 
 const listing = [{
     name: "Villa Italiana",
@@ -44,9 +46,10 @@ const listing = [{
 ]
 
 const Casas = () => {
+    const {darkMode} = useDarkMode();
     const [houses, setHouse] = useState([]);
-    const [showform, setShowForm] = useState(false)
-    const [botontext, setBotonText] = useState("Add New Property")
+    const [showform, setShowForm] = useState(false);
+    const [botontext, setBotonText] = useState("Add New Property");
 
 
     useEffect(()=>{
@@ -64,9 +67,10 @@ const Casas = () => {
 
 
     return (
-        <div className="flex flex-col w-full items-center p-9">
-            <div className="border-2 flex justify-between w-11/12 p-10">
+        <div className={`flex flex-col w-full items-center p-9 bg-${darkMode ? "black" : "white"}`}>
+            <div className={`border-2 flex justify-between w-11/12 p-10 text-${darkMode ? "white" : "black"}`}>
                 <div className="flex flex-col">
+                <BotonDarkMode/>
                 <h2 className="text-2xl font-semibold">Welcome</h2>
                 <h2 className="text-xl font-semibold">this are the house available for sale or rent</h2>
                 </div>
@@ -88,6 +92,7 @@ const Casas = () => {
 }
 
 const CardHouses = ({houseList}) =>{
+    const {darkMode} = useDarkMode();
     useEffect(()=>{
         console.log(houseList);
     },[houseList])
@@ -97,8 +102,8 @@ const CardHouses = ({houseList}) =>{
             return(
                 <div className="border-2 flex flex-col w-64 h-74 items-center my-2 mx-4 shadow-lg">
                     <img className="w-10/12 h-auto" src={prueba} alt="imagen"/>
-                    <h2 className=" capitalize font-semibold text-lg">{house.name}</h2>
-                    <div className="flex flex-wrap items-center justify-center w-full">
+                    <h2 className={`${darkMode ? "darkMode" : "lightMode"} capitalize font-semibold text-lg`}>{house.name}</h2>
+                    <div className={`${darkMode ? "darkMode" : "lightMode"} flex flex-wrap items-center justify-center w-full`}>
                         <p className="font-bold capitalize text-sm px-1">{house.state}</p>
                         <p className="font-light text-sm px-1">{house.adress}</p>
                         <p className="font-light text-sm px-1">{house.price} USD</p>

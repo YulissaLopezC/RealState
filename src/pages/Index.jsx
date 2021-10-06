@@ -1,5 +1,4 @@
 import React from 'react'
-import 'styles/styles.css'
 import Cart from 'components/Cart'
 import card1 from '../media/card1.png'
 import card2 from '../media/card2.png'
