@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import {useEffect} from 'react'
 import prueba from 'media/card1.png'
-import { Link } from 'react-router-dom'
 import NewCasa from './NewCasa'
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from 'react-toastify';
 
 const listing = [{
     name: "Villa Italiana",
@@ -80,7 +81,7 @@ const Casas = () => {
             <section className="w-full h-full flex flex-wrap justify-center">
                 {showform ? (<NewCasa showTable = {setShowForm} addNewHouseToCard = {setHouse} houseList = {houses}/>)
                 : (<CardHouses houseList={houses}/>) }
-                
+            <ToastContainer />  
             </section>
         </div>
     );
