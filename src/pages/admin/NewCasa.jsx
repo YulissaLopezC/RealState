@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 const NewCasa = ({showTable, addNewHouseToCard, houseList}) => {
 
     const formRef = useRef(null);
-    const customId = "custom-id-yes";
     /*const [nameP, setNameP] = useState();
     const [adress, setAdress] = useState();
     const [price, setPrice] = useState();

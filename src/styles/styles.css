@@ -41,7 +41,7 @@
 }
 
 .title_style{
-    @apply text-gray-600 font-bold text-3xl;
+    @apply text-gray-600 font-bold text-xl sm:text-3xl;
 }
 
 .items_menu{

@@ -1,7 +1,6 @@
 import React from 'react'
 import '../styles/styles.css'
 import { Link } from 'react-router-dom'
-import BotonDarkMode from './BotonDarkMode'
 
 const Sidebar = () => {
     return (
