@@ -45,7 +45,7 @@
 }
 
 .items_menu{
-    @apply w-60 border-2 h-16 flex items-center border-transparent justify-center mb-5 hover:bg-indigo-500 hover:text-white;
+    @apply w-60 border-2 h-16 flex items-center border-transparent justify-center mb-5 ;
 }
 
 .boton_default{
