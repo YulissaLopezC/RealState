@@ -17,7 +17,7 @@ const Index = () => {
            </div>
             <h3 className="mt-2 font-semibold text-lg">Whether you’re buying, selling or renting, </h3> 
             <h3 className="font-semibold text-lg"> we can help you move forward.</h3>
-            <div className="flex flex-col h-10 sm:flex-row justify-center w-full px-8 mt-8">
+            <div className="flex flex-col  sm:flex-row justify-center w-full px-8 mt-8">
                 <Cart imagen={card1} titulo="Buy a House"  descripcion="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar" boton="Search a House" />
 
                 <Cart imagen={card2} titulo="Sell a Home"  descripcion="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar" boton="See your option" />

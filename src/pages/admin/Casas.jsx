@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
 import BotonDarkMode from 'components/BotonDarkMode';
 import { useDarkMode } from 'context/DarkMode';
+import { nanoid } from 'nanoid';
 
 const listing = [{
     name: "Villa Italiana",
@@ -100,7 +101,7 @@ const CardHouses = ({houseList}) =>{
     return(
         houseList.map((house)=>{
             return(
-                <div className="border-2 flex flex-col w-64 h-74 items-center my-2 mx-4 shadow-lg">
+                <div key={nanoid} className="border-2 flex flex-col w-64 h-74 items-center my-2 mx-4 shadow-lg">
                     <img className="w-10/12 h-auto" src={prueba} alt="imagen"/>
                     <h2 className={`${darkMode ? "darkMode" : "lightMode"} capitalize font-semibold text-lg`}>{house.name}</h2>
                     <div className={`${darkMode ? "darkMode" : "lightMode"} flex flex-wrap items-center justify-center w-full`}>
