@@ -65,3 +65,31 @@
     @apply text-black;
 }
 
+.tabla{
+    width: 100%;
+}
+
+.tabla th, .tabla td{
+    border: 1px #ddd solid;
+}
+
+.tabla th{
+    padding: 8px;
+    background-color: #04aa04 ;
+    text-align: left;
+
+}
+
+.tabla td{
+    padding: 6px;
+}
+
+
+.tabla tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.tabla tr:hover{
+    background-color: #ddd;
+    cursor: pointer;
+}
