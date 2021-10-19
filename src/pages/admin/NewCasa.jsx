@@ -2,6 +2,8 @@ import React from 'react';
 import { useRef} from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import axios from "axios";
+
 
 const NewCasa = ({showTable, addNewHouseToCard, houseList}) => {
 
@@ -22,7 +24,7 @@ const NewCasa = ({showTable, addNewHouseToCard, houseList}) => {
         toast.success("New House Created")
     }*/
 
-    const submitForm = (e)=>{
+    const submitForm = async (e)=>{
         e.preventDefault();
         const fd = new FormData(formRef.current);
 
@@ -30,10 +32,29 @@ const NewCasa = ({showTable, addNewHouseToCard, houseList}) => {
         fd.forEach((value, key)=>{
             newHouse[key] = value;
         });
+
+        const options = {
+            method: 'POST',
+            //url donde esta desplegada la api
+            url: 'http://localhost:5000/casas/new',
+            headers: {'Content-Type': 'application/json'},
+            //datos del fomulario se asignan como vlor de los campos de la bd
+            data: {name: newHouse.name, adress: newHouse.address, price: newHouse.price, state: newHouse.state}
+          };
+        
+
+        await axios
+        .request(options)
+        .then(function (response) {
+            console.log(response.data);
+            toast.success("New House added")  
+          }).catch(function (error) {
+            console.error(error);
+            toast.error("An Error ocurred") 
+          });
         
         showTable(false)
-        addNewHouseToCard([...houseList, newHouse])
-        toast.success("New House added")  
+       
     }
 
     return (
