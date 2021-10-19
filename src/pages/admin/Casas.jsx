@@ -69,7 +69,7 @@ const Casas = () => {
                     className="boton_default">{botontext}</button>
             </div>
 
-            <section className="w-full h-full flex flex-wrap justify-center">
+            <section className="w-full h-full flex flex-col justify-center">
                 {showform ? (<NewCasa showTable = {setShowForm} addNewHouseToCard = {setHouse} houseList = {houses} ejecutarConsulta={setEjecutarConsulta}/>)
                 : (<Tabla listHouse={houses} setEjecutarConsulta={setEjecutarConsulta}/>) }
             <ToastContainer />  
@@ -104,9 +104,25 @@ const CardHouses = ({houseList}) =>{
 
 const Tabla = ({listHouse, setEjecutarConsulta})=>{
 
+    const [busqueda, setBusqueda] = useState('')
+    const [casaFiltrada, setCasaFiltrada] = useState(listHouse)
+
+    //busqueda
+    useEffect(()=>{
+        console.log('busqueda', busqueda);
+        
+        setCasaFiltrada(listHouse.filter((elemento)=>{
+                console.log("eleleno", elemento)
+                return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
+            })
+        )
+        
+    }, [busqueda, listHouse])
 
     return(
-        <div className="w-full mt-5">           
+        <div className="w-full">    
+            <input value={busqueda} onChange={(e)=>setBusqueda(e.target.value)}
+            className="border-2 border-indigo-400 outline-none my-6 w-1/5 h-10 rounded-md pl-2" placeholder="Search House" type="text"  />       
                 <table className="tabla">
                     <thead>
                         <tr>
@@ -119,7 +135,7 @@ const Tabla = ({listHouse, setEjecutarConsulta})=>{
                     </thead>
                     <tbody>
                         {
-                            listHouse.map((house)=>{
+                            casaFiltrada.map((house)=>{
                                 return(
                                     <FilaTabla key={nanoid} house={house} ejecutarConsulta={setEjecutarConsulta}/>
                                 )
@@ -205,8 +221,14 @@ const FilaTabla = ({house, ejecutarConsulta}) =>{
                 onChange={(e)=>setInfoHouse({...infoHouse, adress: e.target.value})}/></td>
                 <td><input className="border-2 border-purple-400 outline-none" type="text" Value={infoHouse.price}
                 onChange={(e)=>setInfoHouse({...infoHouse, price: e.target.value})} /></td>
-                <td><input className="border-2 border-purple-400 outline-none" type="text" Value={infoHouse.state}
-                onChange={(e)=>setInfoHouse({...infoHouse, state: e.target.value})} /></td>
+                <td>
+                    <select className="border-2 border-purple-400" name="state" Value={infoHouse.state}
+                    onChange={(e)=>setInfoHouse({...infoHouse, state: e.target.value})} >
+                        <option value={0} disabled> Select an option</option>
+                        <option> For Sale</option>
+                        <option> For Rent</option>
+                    </select>
+                </td>
                 <td className="flex justify-around">
                     <Tooltip title="Save Changes" arrow>
                         <i onClick={()=>{
