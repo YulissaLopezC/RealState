@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import axios from "axios";
 
 
-const NewCasa = ({showTable, addNewHouseToCard, houseList}) => {
+const NewCasa = ({showTable, addNewHouseToCard, houseList, ejecutarConsulta}) => {
 
     const formRef = useRef(null);
     /*const [nameP, setNameP] = useState();
@@ -53,7 +53,8 @@ const NewCasa = ({showTable, addNewHouseToCard, houseList}) => {
             toast.error("An Error ocurred") 
           });
         
-        showTable(false)
+        showTable(false);
+        ejecutarConsulta(true);
        
     }
 

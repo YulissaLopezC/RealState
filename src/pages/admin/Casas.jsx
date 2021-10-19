@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import {useEffect} from 'react'
 import prueba from 'media/card1.png'
 import NewCasa from './NewCasa'
@@ -10,12 +10,38 @@ import { nanoid } from 'nanoid';
 import Tooltip from '@mui/material/Tooltip';
 import  Dialog  from '@mui/material/Dialog';
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 const Casas = () => {
     const {darkMode} = useDarkMode();
     const [houses, setHouse] = useState([]);
     const [showform, setShowForm] = useState(false);
     const [botontext, setBotonText] = useState("Add New Property");
+    const [ejecutarConsulta, setEjecutarConsulta] = useState(true)
+
+    useEffect(()=>{
+
+        const obtenerHouses = ()=>{
+            const options = {method: 'GET', url: 'http://localhost:5000/casas'};
+
+            axios
+            .request(options)
+            .then(function (response) {
+            setHouse(response.data)
+            }).catch(function (error) {
+            console.error(error);
+            });
+            setHouse([]);
+
+            setShowForm(false)
+        }
+
+        if (ejecutarConsulta){
+            obtenerHouses();
+            setEjecutarConsulta(false);
+        }
+
+    }, [ejecutarConsulta])
 
 
     useEffect(()=>{
@@ -25,22 +51,6 @@ const Casas = () => {
             setBotonText("Add New property");
         }
     }, [showform])
-
-
-    useEffect(()=>{
-        const options = {method: 'GET', url: 'http://localhost:5000/casas'};
-
-        axios
-        .request(options)
-        .then(function (response) {
-        setHouse(response.data)
-        }).catch(function (error) {
-        console.error(error);
-        });
-        setHouse([]);
-
-        setShowForm(false)
-    },[])
 
 
     return (
@@ -60,8 +70,8 @@ const Casas = () => {
             </div>
 
             <section className="w-full h-full flex flex-wrap justify-center">
-                {showform ? (<NewCasa showTable = {setShowForm} addNewHouseToCard = {setHouse} houseList = {houses}/>)
-                : (<Tabla listHouse={houses}/>) }
+                {showform ? (<NewCasa showTable = {setShowForm} addNewHouseToCard = {setHouse} houseList = {houses} ejecutarConsulta={setEjecutarConsulta}/>)
+                : (<Tabla listHouse={houses} setEjecutarConsulta={setEjecutarConsulta}/>) }
             <ToastContainer />  
             </section>
         </div>
@@ -92,18 +102,11 @@ const CardHouses = ({houseList}) =>{
     );
 }
 
-const Tabla = ({listHouse})=>{
+const Tabla = ({listHouse, setEjecutarConsulta})=>{
 
-    const form = useRef(null);
-
-    const submitEdit = (e)=>{
-        e.preventDefault();
-        console.log(e);
-    }
 
     return(
-        <div className="w-full mt-5">
-            <form ref={form} onSubmit={submitEdit}>
+        <div className="w-full mt-5">           
                 <table className="tabla">
                     <thead>
                         <tr>
@@ -118,22 +121,69 @@ const Tabla = ({listHouse})=>{
                         {
                             listHouse.map((house)=>{
                                 return(
-                                    <FilaTabla key={nanoid} house={house}/>
+                                    <FilaTabla key={nanoid} house={house} ejecutarConsulta={setEjecutarConsulta}/>
                                 )
                             })
                         }
                     </tbody>
                 </table>
-            </form>
        </div>
     )    
 }
 
-const FilaTabla = ({house}) =>{
+const FilaTabla = ({house, ejecutarConsulta}) =>{
 
     const[edit, setEdit] = useState(false);
     const[confirmarCambios, setConfirmarCambios] = useState(false);
     const[eliminarItem, setEliminarItem] = useState(false);
+    const[infoHouse, setInfoHouse] = useState({
+        name: house.name,
+        adress: house.adress,
+        price: house.price,
+        state: house.state
+    })
+
+    const updateHouse = async()=>{
+        const options = {
+            method: 'PATCH',
+            url: 'http://localhost:5000/casas/editar',
+            headers: {'Content-Type': 'application/json'},
+            data: {...infoHouse, id:house._id}
+          };
+          
+          await axios
+          .request(options)
+          .then(function (response) {
+            console.log(response.data);
+            toast.success("The data was updated")
+            setEdit(false)
+          }).catch(function (error) {
+            console.error(error);
+            toast.success("Error while updating the data")
+          });
+        setConfirmarCambios(false);
+        ejecutarConsulta(true);
+    }
+
+    const deleteItem = async()=>{
+        const options = {
+            method: 'DELETE',
+            url: 'http://localhost:5000/casas/eliminar',
+            headers: {'Content-Type': 'application/json'},
+            data: {id: house._id}
+          };
+          
+          await axios.request(options).then(function (response) {
+            console.log(response.data);
+            toast.success("The house was deleted")
+          }).catch(function (error) {
+            console.error(error);
+            toast.error("Error Deleting the house")
+          });
+
+          setEliminarItem(false);
+          ejecutarConsulta(true);
+    }
 
     useEffect(()=>{
         console.log(edit)
@@ -149,13 +199,19 @@ const FilaTabla = ({house}) =>{
             {edit ? 
             (
                 <tr>
-                <td><input className="border-2 border-purple-400 outline-none" type="text" defaultValue={house.name}/></td>
-                <td><input className="border-2 border-purple-400 outline-none" type="text" defaultValue={house.adress}/></td>
-                <td><input className="border-2 border-purple-400 outline-none" type="text" defaultValue={house.price}/></td>
-                <td><input className="border-2 border-purple-400 outline-none" type="text" defaultValue={house.state}/></td>
+                <td><input className="border-2 border-purple-400 outline-none" type="text" Value={infoHouse.name} 
+                onChange={(e)=>setInfoHouse({...infoHouse, name: e.target.value})}/></td>
+                <td><input className="border-2 border-purple-400 outline-none" type="text" Value={infoHouse.adress}
+                onChange={(e)=>setInfoHouse({...infoHouse, adress: e.target.value})}/></td>
+                <td><input className="border-2 border-purple-400 outline-none" type="text" Value={infoHouse.price}
+                onChange={(e)=>setInfoHouse({...infoHouse, price: e.target.value})} /></td>
+                <td><input className="border-2 border-purple-400 outline-none" type="text" Value={infoHouse.state}
+                onChange={(e)=>setInfoHouse({...infoHouse, state: e.target.value})} /></td>
                 <td className="flex justify-around">
                     <Tooltip title="Save Changes" arrow>
-                        <i onClick={()=>{setConfirmarCambios(!confirmarCambios);}}
+                        <i onClick={()=>{
+                            setConfirmarCambios(!confirmarCambios);
+                        }}
                         className="fas fa-check-square text-2xl text-green-300"></i>
                     </Tooltip>
                     <Tooltip title="Cancel" arrow>
@@ -167,7 +223,9 @@ const FilaTabla = ({house}) =>{
                         <div className="p-9 flex flex-col justify-center items-center">
                             <h3 className="text-xl font-semibold mb-4">Are you sure to Save the changes?</h3>  
                             <div>
-                            <button onClick={()=>console.log("working")}className="bg-green-500 px-4 py-2 hover:bg-green-300 text-white mx-2">Yes</button>
+                            <button onClick={()=>updateHouse()}
+                            
+                            className="bg-green-500 px-4 py-2 hover:bg-green-300 text-white mx-2">Yes</button>
                             <button onClick={()=>setConfirmarCambios(false)}className="bg-red-500 px-4 py-2 hover:bg-red-300 text-white mx-2">No</button>
                         </div>  
                     </div>
@@ -188,13 +246,13 @@ const FilaTabla = ({house}) =>{
                         </Tooltip>
                         <Tooltip title="Delete Property" arrow>
                             <i onClick={()=>setEliminarItem(!eliminarItem)}
-                                                className="fas fa-trash text-2xl text-purple-300"></i>
+                                className="fas fa-trash text-2xl text-purple-300"></i>
                         </Tooltip>
                         <Dialog open={eliminarItem}>
                             <div className="p-9 flex flex-col justify-center items-center">
                                 <h3 className="text-xl font-semibold mb-4">Are you sure to Delete this property?</h3>  
                                 <div>
-                                    <button onClick={()=>console.log("working")}className="bg-green-500 px-4 py-2 hover:bg-green-300 text-white mx-2">Yes</button>
+                                    <button onClick={()=>deleteItem()}className="bg-green-500 px-4 py-2 hover:bg-green-300 text-white mx-2">Yes</button>
                                     <button onClick={()=>setEliminarItem(false)}className="bg-red-500 px-4 py-2 hover:bg-red-300 text-white mx-2">No</button>
                                 </div>  
                             </div>
