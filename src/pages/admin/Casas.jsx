@@ -162,9 +162,9 @@ const FilaTabla = ({house, ejecutarConsulta}) =>{
     const updateHouse = async()=>{
         const options = {
             method: 'PATCH',
-            url: 'http://localhost:5000/casas/editar',
+            url: `http://localhost:5000/casas/${house._id}`,
             headers: {'Content-Type': 'application/json'},
-            data: {...infoHouse, id:house._id}
+            data: {...infoHouse}
           };
           
           await axios
@@ -184,7 +184,7 @@ const FilaTabla = ({house, ejecutarConsulta}) =>{
     const deleteItem = async()=>{
         const options = {
             method: 'DELETE',
-            url: 'http://localhost:5000/casas/eliminar',
+            url: `http://localhost:5000/casas/${house._id}`,
             headers: {'Content-Type': 'application/json'},
             data: {id: house._id}
           };

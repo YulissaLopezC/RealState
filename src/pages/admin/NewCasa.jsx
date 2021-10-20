@@ -36,7 +36,7 @@ const NewCasa = ({showTable, addNewHouseToCard, houseList, ejecutarConsulta}) =>
         const options = {
             method: 'POST',
             //url donde esta desplegada la api
-            url: 'http://localhost:5000/casas/new',
+            url: 'http://localhost:5000/casas',
             headers: {'Content-Type': 'application/json'},
             //datos del fomulario se asignan como vlor de los campos de la bd
             data: {name: newHouse.name, adress: newHouse.address, price: newHouse.price, state: newHouse.state}
