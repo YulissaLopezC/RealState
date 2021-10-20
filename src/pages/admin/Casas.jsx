@@ -27,7 +27,7 @@ const Casas = () => {
             axios
             .request(options)
             .then(function (response) {
-            setHouse(response.data)
+            setHouse(response.data)     
             }).catch(function (error) {
             console.error(error);
             });
@@ -64,7 +64,6 @@ const Casas = () => {
                     <button onClick ={
                     ()=>{
                         setShowForm(!showform)
-                        console.log("showform =", showform)
                     }}
                     className="boton_default">{botontext}</button>
             </div>
@@ -103,16 +102,14 @@ const CardHouses = ({houseList}) =>{
 }
 
 const Tabla = ({listHouse, setEjecutarConsulta})=>{
-
     const [busqueda, setBusqueda] = useState('')
     const [casaFiltrada, setCasaFiltrada] = useState(listHouse)
-
+    console.log("lista:", listHouse);
     //busqueda
     useEffect(()=>{
-        console.log('busqueda', busqueda);
+        //console.log("lista:", listHouse);
         
         setCasaFiltrada(listHouse.filter((elemento)=>{
-                console.log("eleleno", elemento)
                 return JSON.stringify(elemento).toLowerCase().includes(busqueda.toLowerCase());
             })
         )
@@ -263,12 +260,10 @@ const FilaTabla = ({house, ejecutarConsulta}) =>{
                     <td>{house.state}</td>
                     <td className="flex justify-around">
                         <Tooltip title="Edit Property" arrow>
-                            <i onClick= {()=>setEdit(!edit)}
-                                                className="fas fa-pen-square text-2xl text-purple-300"></i>
+                            <i onClick= {()=>setEdit(!edit)} className="fas fa-pen-square text-2xl text-purple-300"></i>
                         </Tooltip>
                         <Tooltip title="Delete Property" arrow>
-                            <i onClick={()=>setEliminarItem(!eliminarItem)}
-                                className="fas fa-trash text-2xl text-purple-300"></i>
+                            <i onClick={()=>setEliminarItem(!eliminarItem)} className="fas fa-trash text-2xl text-purple-300"></i>
                         </Tooltip>
                         <Dialog open={eliminarItem}>
                             <div className="p-9 flex flex-col justify-center items-center">
