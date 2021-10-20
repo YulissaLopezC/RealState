@@ -9,6 +9,7 @@ import AutheLayout from 'layouts/AutheLayout';
 import Clientes from 'pages/admin/Clientes';
 import Casas from 'pages/admin/Casas';
 import NewCasa from 'pages/admin/NewCasa';
+import Profile from 'pages/admin/Profile';
 import { DarkMode } from 'context/DarkMode';
 import {useState} from 'react'
 
@@ -23,6 +24,9 @@ function App() {
               <Switch>
                 <Route path="/admin/casas/new">
                   <NewCasa/>
+                </Route>
+                <Route path="/admin/perfil">
+                  <Profile/>
                 </Route>
                 <Route path="/admin/clientes">
                   <Clientes/>

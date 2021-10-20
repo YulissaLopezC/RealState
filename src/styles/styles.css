@@ -41,11 +41,11 @@
 }
 
 .title_style{
-    @apply text-gray-600 font-bold text-3xl;
+    @apply text-gray-600 font-bold text-xl sm:text-3xl;
 }
 
 .items_menu{
-    @apply w-60 border-2 h-16 flex items-center border-transparent justify-center mb-5 hover:bg-indigo-500 hover:text-white;
+    @apply w-60 border-2 h-16 flex items-center border-transparent justify-center mb-5 ;
 }
 
 .boton_default{
@@ -65,3 +65,31 @@
     @apply text-black;
 }
 
+.tabla{
+    width: 100%;
+}
+
+.tabla th, .tabla td{
+    border: 1px #ddd solid;
+}
+
+.tabla th{
+    padding: 8px;
+    background-color: #04aa04 ;
+    text-align: left;
+
+}
+
+.tabla td{
+    padding: 6px;
+}
+
+
+.tabla tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.tabla tr:hover{
+    background-color: #ddd;
+    cursor: pointer;
+}
