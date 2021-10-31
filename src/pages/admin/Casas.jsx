@@ -9,8 +9,10 @@ import { useDarkMode } from 'context/DarkMode';
 import { nanoid } from 'nanoid';
 import Tooltip from '@mui/material/Tooltip';
 import  Dialog  from '@mui/material/Dialog';
-import axios from "axios";
 import { toast } from 'react-toastify';
+import { obtenerHouses } from 'utils/api';
+import { editarCasa } from 'utils/api';
+import { eliminarCasa } from 'utils/api';
 
 const Casas = () => {
     const {darkMode} = useDarkMode();
@@ -21,23 +23,15 @@ const Casas = () => {
 
     useEffect(()=>{
 
-        const obtenerHouses = ()=>{
-            const options = {method: 'GET', url: 'http://localhost:5000/casas'};
-
-            axios
-            .request(options)
-            .then(function (response) {
-            setHouse(response.data)     
-            }).catch(function (error) {
-            console.error(error);
-            });
-            setHouse([]);
-
-            setShowForm(false)
-        }
-
         if (ejecutarConsulta){
-            obtenerHouses();
+            obtenerHouses(
+                (response)=>{
+                    setHouse(response.data)
+                },
+                (error)=>{
+                    console.error(error)
+                }
+            );
             setEjecutarConsulta(false);
         }
 
@@ -157,14 +151,14 @@ const FilaTabla = ({house, ejecutarConsulta}) =>{
     })
 
     const updateHouse = async()=>{
-        const options = {
+        /* const options = {
             method: 'PATCH',
             url: `http://localhost:5000/casas/${house._id}`,
             headers: {'Content-Type': 'application/json'},
             data: {...infoHouse}
-          };
+          }; */
           
-          await axios
+          /* await axios
           .request(options)
           .then(function (response) {
             console.log(response.data);
@@ -173,26 +167,51 @@ const FilaTabla = ({house, ejecutarConsulta}) =>{
           }).catch(function (error) {
             console.error(error);
             toast.success("Error while updating the data")
-          });
+          }); */
+
+          editarCasa(house._id, infoHouse,
+            (response)=>{
+                console.log(response.data);
+                toast.success("The data was updated")
+                setEdit(false)
+            },
+            (error)=>{
+                console.error(error);
+                toast.success("Error while updating the data")
+            })
         setConfirmarCambios(false);
         ejecutarConsulta(true);
     }
 
     const deleteItem = async()=>{
-        const options = {
+        /* const options = {
             method: 'DELETE',
             url: `http://localhost:5000/casas/${house._id}`,
             headers: {'Content-Type': 'application/json'},
             data: {id: house._id}
-          };
+          }; */
           
-          await axios.request(options).then(function (response) {
+         /*  await axios.request(options).then(function (response) {
             console.log(response.data);
             toast.success("The house was deleted")
           }).catch(function (error) {
             console.error(error);
             toast.error("Error Deleting the house")
-          });
+          }); */
+
+          eliminarCasa(house._id,
+            
+            (response)=>{
+                console.log(response.data);
+                toast.success("The house was deleted")
+            },
+
+            (error)=>{
+                console.error(error);
+                toast.error("Error Deleting the house")
+            }
+            
+            )
 
           setEliminarItem(false);
           ejecutarConsulta(true);

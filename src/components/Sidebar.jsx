@@ -16,6 +16,7 @@ const Sidebar = () => {
                     <Ruta ruta="/admin/perfil" nombre="perfil"/>
                     <Ruta ruta="/admin/clientes" nombre="Customer"/>
                     <Ruta ruta="/admin/casas" nombre="Houses"/>
+                    <Ruta ruta="/admin/business" nombre="Sales and Rents" />
                     <Ruta ruta="/index" nombre="Cerrar Sesion" />
                 </ul>
             </nav>

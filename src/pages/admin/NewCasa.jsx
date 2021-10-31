@@ -3,6 +3,7 @@ import { useRef} from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import axios from "axios";
+import { crearCasa } from 'utils/api';
 
 
 const NewCasa = ({showTable, addNewHouseToCard, houseList, ejecutarConsulta}) => {
@@ -33,7 +34,24 @@ const NewCasa = ({showTable, addNewHouseToCard, houseList, ejecutarConsulta}) =>
             newHouse[key] = value;
         });
 
-        const options = {
+        await crearCasa(
+            {name: newHouse.name, 
+            adress: newHouse.address, 
+            price: newHouse.price, 
+            state: newHouse.state},
+
+            (response)=>{
+                console.log(response.data);
+                toast.success("New House Created")
+            },
+
+            (error)=>{
+                console.error(error);
+                toast.error("An Error Ocurred");
+            }
+        )
+
+        /* const options = {
             method: 'POST',
             //url donde esta desplegada la api
             url: 'http://localhost:5000/casas',
@@ -51,7 +69,7 @@ const NewCasa = ({showTable, addNewHouseToCard, houseList, ejecutarConsulta}) =>
           }).catch(function (error) {
             console.error(error);
             toast.error("An Error ocurred") 
-          });
+          }); */
         
         showTable(false);
         ejecutarConsulta(true);

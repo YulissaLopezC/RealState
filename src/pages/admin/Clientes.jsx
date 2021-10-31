@@ -3,6 +3,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import FormularioCreaacion from 'components/FormularioCreaacion';
 import axios from "axios";
+import { obtenerClientes } from 'utils/api';
 
 const Clientes = () =>{
     const [showForm, setShowForm] = useState(false);
@@ -12,7 +13,7 @@ const Clientes = () =>{
     useEffect(()=>{
         if(showForm === false){
             
-            const obtenerCustomer = () =>{
+            /* const obtenerCustomer = () =>{
     
                 const options = {method: 'GET', url: 'http://localhost:5000/customer'};
     
@@ -27,9 +28,17 @@ const Clientes = () =>{
     
                   setShowForm(false)
     
-            }
+            } */
     
-            obtenerCustomer();
+            obtenerClientes(
+                (response)=>{
+                    console.log(response.data)
+                    setCustomer(response.data)  
+                },
+                (error)=>{
+                    console.error(error);
+                }
+            );
         }
     }, [showForm])
 

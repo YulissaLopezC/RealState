@@ -9,6 +9,7 @@ import AutheLayout from 'layouts/AutheLayout';
 import Clientes from 'pages/admin/Clientes';
 import Casas from 'pages/admin/Casas';
 import NewCasa from 'pages/admin/NewCasa';
+import Business from 'pages/admin/Business';
 import Profile from 'pages/admin/Profile';
 import { DarkMode } from 'context/DarkMode';
 import {useState} from 'react'
@@ -19,11 +20,14 @@ function App() {
     <DarkMode.Provider value={{darkMode, setDarkMode}}>
       <Router>
         <Switch>
-          <Route path ={['/admin', 'admin/clientes', '/admin/casas']}>
+          <Route path ={['/admin', 'admin/clientes', '/admin/casas', '/admin/business']}>
             <PrivateLayout>
               <Switch>
                 <Route path="/admin/casas/new">
                   <NewCasa/>
+                </Route>
+                <Route path="/admin/business">
+                  <Business/>
                 </Route>
                 <Route path="/admin/perfil">
                   <Profile/>
