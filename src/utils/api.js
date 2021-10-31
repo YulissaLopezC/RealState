@@ -43,3 +43,17 @@ export const obtenerClientes = async (successCallback, errorCallback)=>{
     const options = {method: 'GET', url: 'http://localhost:5000/customer'};
     await axios.request(options).then(successCallback).catch(errorCallback);
 }
+
+//CRUD PARA CREAR UNA VENTA
+export const crearVenta = async(data, successCallback, errorCallback)=>{
+    const options = {
+        method: 'POST',
+        //url donde esta desplegada la api
+        url: 'http://localhost:5000/ventas',
+        headers: {'Content-Type': 'application/json'},
+        //datos del fomulario se asignan como vlor de los campos de la bd
+        data,
+    }
+
+    await axios.request(options).then(successCallback).catch(errorCallback);
+}
